@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missione Miliardi: L'Astronavista dei Grandi Numeri</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Fredoka & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            color: #f8fafc;
+            user-select: none;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 16:9 Aspect Ratio Main Screen Enforcer */
+        .viewport-16-9 {
+            width: 100vw;
+            height: 56.25vw;
+            max-height: 100vh;
+            max-width: 177.78vh;
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+
+        /* Custom Scrollbar for inner modals */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+
+        /* Sci-Fi & Rocket Launch Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.9; }
+        }
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: starTwinkle var(--duration) infinite ease-in-out;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .num-font {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* Rocket Launch Specific Animations */
+        @keyframes rocketShake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .rocket-rumble {
+            animation: rocketShake 0.15s infinite;
+        }
+
+        @keyframes rocketFlyUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            30% { transform: translateY(-50px) scale(1.1); }
+            100% { transform: translateY(-800px) scale(0.3); opacity: 0; }
+        }
+
+        .rocket-launching {
+            animation: rocketFlyUp 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes flameFlicker {
+            0%, 100% { transform: scaleY(1); opacity: 0.9; }
+            50% { transform: scaleY(1.3); opacity: 1; }
+        }
+        .thruster-flame {
+            animation: flameFlicker 0.1s infinite alternate;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 flex items-center justify-center min-h-screen">
+
+    <div id="starfield" class="absolute inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+    <!-- MAIN CONTAINER (16:9 STRICT RATIO FRAME) -->
+    <div id="game-frame" class="viewport-16-9 glass-panel rounded-2xl overflow-hidden shadow-2xl flex flex-col z-10 border border-indigo-500/30">
+
+        <!-- HEADER BAR -->
+        <header class="h-[10%] bg-slate-900/90 border-b border-indigo-500/30 px-4 sm:px-6 flex items-center justify-between text-xs sm:text-sm md:text-base z-20">
+            <!-- Left: Title & Logo -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <i class="fa-solid font-bold text-base sm:text-xl fa-rocket"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-pink-400 leading-tight text-sm sm:text-base md:text-lg">
+                        MISSIONE MILIARDI
+                    </h1>
+                    <span class="text-[10px] sm:text-xs text-indigo-300 block -mt-1">Matematica Spaziale • Centinaia = h</span>
+                </div>
+            </div>
+
+            <!-- Center: Game HUD Stats -->
+            <div id="hud-stats" class="hidden flex items-center gap-3 sm:gap-6 bg-slate-800/80 px-4 py-1.5 rounded-full border border-slate-700">
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-star text-amber-400 text-sm sm:text-base"></i>
+                    <span class="text-xs text-slate-400">Punti:</span>
+                    <span id="score-display" class="font-extrabold num-font text-amber-300 text-sm sm:text-base">0</span>
+                </div>
+                <div class="h-4 w-[1px] bg-slate-700"></div>
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-fire text-orange-500 text-sm sm:text-base"></i>
+                    <span class="text-xs text-slate-400">Combo:</span>
+                    <span id="streak-display" class="font-extrabold num-font text-orange-400 text-sm sm:text-base">0x</span>
+                </div>
+                <div class="h-4 w-[1px] bg-slate-700"></div>
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-cyan-400 text-sm sm:text-base"></i>
+                    <span id="level-badge" class="font-bold text-xs bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded-md border border-cyan-800">Liv. 1</span>
+                </div>
+            </div>
+
+            <!-- Right: Action Buttons -->
+            <div class="flex items-center gap-2">
+                <button id="btn-abaco" onclick="openAbacoModal()" class="bg-slate-800 hover:bg-slate-700 text-sky-300 hover:text-white px-3 py-1.5 rounded-xl border border-sky-500/30 transition flex items-center gap-1.5 text-xs font-semibold shadow-md">
+                    <i class="fa-solid fa-table-cells text-sky-400"></i>
+                    <span class="hidden sm:inline">Abaco Spaziale</span>
+                </button>
+                <button id="btn-audio" onclick="toggleAudio()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-xl border border-slate-700 transition">
+                    <i id="audio-icon" class="fa-solid fa-volume-high text-indigo-400"></i>
+                </button>
+                <button onclick="toggleFullscreen()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-xl border border-slate-700 transition">
+                    <i class="fa-solid fa-expand text-slate-400"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main id="main-stage" class="relative flex-1 w-full h-[90%] overflow-hidden flex flex-col justify-between p-3 sm:p-5">
+
+            <!-- ================= VIEW 1: MAIN MENU ================= -->
+            <section id="view-menu" class="h-full flex flex-col items-center justify-between text-center py-1 sm:py-2">
+                <div class="mt-1 animate-float">
+                    <div class="inline-flex items-center gap-2 bg-indigo-950/80 text-indigo-300 border border-indigo-500/40 px-3 py-1 rounded-full text-xs mb-2">
+                        <i class="fa-solid fa-graduation-cap"></i> Impara i numeri fino ai Miliardi! (Simbolo Centinaia: h)
+                    </div>
+                    <h2 class="text-xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-wide">
+                        ESPLORA L'UNIVERSO DEI <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-pink-500">
+                            MILIONI E MILIARDI
+                        </span>
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mt-1 mx-auto px-4">
+                        Completa le 4 missioni matematiche! Raggiungi almeno <span class="text-amber-300 font-bold">36/40 risposte esatte complessive</span> per sbloccare il lancio del Razzo Spaziale!
+                    </p>
+                </div>
+
+                <!-- Campaign Overall Status Banner -->
+                <div id="campaign-banner" class="w-full max-w-3xl bg-slate-900/90 border border-indigo-500/40 rounded-xl px-4 py-2 flex items-center justify-between text-xs sm:text-sm my-1">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-indigo-400"></i>
+                        <span>Avanzamento Campagna Completa:</span>
+                        <span id="campaign-status-text" class="font-extrabold text-amber-300 num-font">0/4 Missioni Completate</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-slate-400">Punteggio Totale:</span>
+                        <span id="campaign-total-score" class="font-extrabold text-emerald-400 num-font">0/40</span>
+                    </div>
+                </div>
+
+                <!-- Level Select Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-5xl my-auto px-2">
+                    <!-- Mission 1 Slot -->
+                    <div onclick="startMission(1)" class="glass-panel hover:bg-slate-800/90 p-3.5 rounded-2xl border border-indigo-500/30 hover:border-indigo-400 transition cursor-pointer transform hover:-translate-y-1 shadow-lg text-left group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-9 h-9 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition">
+                                    <i class="fa-solid fa-radar text-base"></i>
+                                </div>
+                                <span id="slot-status-1" class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700">Non giocata</span>
+                            </div>
+                            <h3 class="font-bold text-white text-sm">1. Radar Posizionale</h3>
+                            <p class="text-[11px] text-slate-400 mt-1">Identifica le posizioni (hG, hM, hk, h...).</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-700/60 flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400"><i class="fa-solid fa-trophy text-amber-400 mr-1"></i>Record:</span>
+                            <span id="slot-score-1" class="font-extrabold text-amber-300 num-font">- / 10</span>
+                        </div>
+                    </div>
+
+                    <!-- Mission 2 Slot -->
+                    <div onclick="startMission(2)" class="glass-panel hover:bg-slate-800/90 p-3.5 rounded-2xl border border-sky-500/30 hover:border-sky-400 transition cursor-pointer transform hover:-translate-y-1 shadow-lg text-left group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-9 h-9 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400 group-hover:bg-sky-500 group-hover:text-white transition">
+                                    <i class="fa-solid fa-puzzle-piece text-base"></i>
+                                </div>
+                                <span id="slot-status-2" class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700">Non giocata</span>
+                            </div>
+                            <h3 class="font-bold text-white text-sm">2. Scomposizione</h3>
+                            <p class="text-[11px] text-slate-400 mt-1">Ricomponi e decodifica i grandi numeri.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-700/60 flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400"><i class="fa-solid fa-trophy text-amber-400 mr-1"></i>Record:</span>
+                            <span id="slot-score-2" class="font-extrabold text-amber-300 num-font">- / 10</span>
+                        </div>
+                    </div>
+
+                    <!-- Mission 3 Slot -->
+                    <div onclick="startMission(3)" class="glass-panel hover:bg-slate-800/90 p-3.5 rounded-2xl border border-emerald-500/30 hover:border-emerald-400 transition cursor-pointer transform hover:-translate-y-1 shadow-lg text-left group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition">
+                                    <i class="fa-solid fa-code-compare text-base"></i>
+                                </div>
+                                <span id="slot-status-3" class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700">Non giocata</span>
+                            </div>
+                            <h3 class="font-bold text-white text-sm">3. Rotta & Confronti</h3>
+                            <p class="text-[11px] text-slate-400 mt-1">Confronta ed ordina le quantità cosmiche.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-700/60 flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400"><i class="fa-solid fa-trophy text-amber-400 mr-1"></i>Record:</span>
+                            <span id="slot-score-3" class="font-extrabold text-amber-300 num-font">- / 10</span>
+                        </div>
+                    </div>
+
+                    <!-- Mission 4 Slot -->
+                    <div onclick="startMission(4)" class="glass-panel hover:bg-slate-800/90 p-3.5 rounded-2xl border border-amber-500/30 hover:border-amber-400 transition cursor-pointer transform hover:-translate-y-1 shadow-lg text-left group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-9 h-9 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition">
+                                    <i class="fa-solid fa-bolt text-base"></i>
+                                </div>
+                                <span id="slot-status-4" class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700">Non giocata</span>
+                            </div>
+                            <h3 class="font-bold text-white text-sm">4. Motore Iper-Luce</h3>
+                            <p class="text-[11px] text-slate-400 mt-1">Calcoli mentali veloci con Milioni e Miliardi.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-700/60 flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400"><i class="fa-solid fa-trophy text-amber-400 mr-1"></i>Record:</span>
+                            <span id="slot-score-4" class="font-extrabold text-amber-300 num-font">- / 10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Launch Button -->
+                <div class="mb-1 flex items-center gap-3">
+                    <button onclick="startMission(1)" class="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 hover:from-indigo-600 hover:to-pink-600 text-white font-extrabold px-6 py-2.5 rounded-xl text-sm sm:text-base shadow-xl transition transform hover:scale-105 flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> AVVIA MISSIONE 1
+                    </button>
+                    <button id="btn-rocket-launch-menu" onclick="openRocketModal()" class="hidden bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white font-extrabold px-6 py-2.5 rounded-xl text-sm sm:text-base shadow-xl transition transform hover:scale-105 flex items-center gap-2 border border-amber-300/50 animate-bounce">
+                        <i class="fa-solid fa-rocket"></i> LANCIA IL RAZZO!
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- ================= VIEW 2: GAMEPLAY ACTIVE STAGE ================= -->
+            <section id="view-game" class="hidden h-full flex flex-col justify-between">
+                
+                <!-- Stage Top Banner / Question Prompt -->
+                <div class="bg-slate-900/90 border border-indigo-500/40 rounded-2xl p-3 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <div id="mission-icon" class="w-9 h-9 rounded-xl bg-indigo-600/30 border border-indigo-400 flex items-center justify-center text-indigo-300 text-base shrink-0">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div>
+                            <div id="mission-title" class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Missione 1 • Radar Posizionale</div>
+                            <div id="question-text" class="text-sm sm:text-base font-bold text-white">Caricamento domanda...</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                        <div class="text-right">
+                            <div class="text-[10px] text-slate-400 uppercase">Avanzamento</div>
+                            <div id="progress-text" class="text-xs font-bold text-indigo-300">1 / 10 Domande</div>
+                        </div>
+                        <div class="w-24 sm:w-32 bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700">
+                            <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full w-[10%] transition-all duration-300"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC INTERACTIVE PLAY AREA -->
+                <div id="play-area" class="my-auto flex-1 flex items-center justify-center py-2">
+                    <!-- Dynamic interactive content injected via JS -->
+                </div>
+
+                <!-- Bottom Feedback & Control Bar -->
+                <div id="feedback-bar" class="h-11 bg-slate-900/80 border border-slate-800 rounded-xl px-4 flex items-center justify-between text-xs sm:text-sm">
+                    <div id="hint-text" class="text-slate-400 flex items-center gap-2">
+                        <i class="fa-regular fa-lightbulb text-amber-400"></i>
+                        <span>Suggerimento: Osserva bene il gruppo dei Miliardi (G) e dei Milioni (M).</span>
+                    </div>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-1.5 rounded-lg transition flex items-center gap-2 shadow-md">
+                        <span>Prossima Sfida</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </section>
+
+
+            <!-- ================= VIEW 3: MISSION COMPLETE / RESULTS ================= -->
+            <section id="view-results" class="hidden h-full flex flex-col items-center justify-center text-center p-4">
+                <div class="glass-panel p-5 sm:p-6 rounded-3xl border border-indigo-500/40 max-w-xl w-full shadow-2xl relative overflow-hidden">
+                    
+                    <div class="w-14 h-14 bg-amber-500/20 border-2 border-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-amber-300 text-2xl animate-bounce">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+
+                    <h2 id="res-title" class="text-xl sm:text-2xl font-extrabold text-white">MISSIONE COMPLETA!</h2>
+                    <p id="res-subtitle" class="text-slate-300 text-xs mt-1">Ottimo lavoro sulle competenze dei grandi numeri!</p>
+
+                    <!-- Stars rating -->
+                    <div id="stars-container" class="flex justify-center gap-2 my-3 text-2xl text-amber-400">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <!-- Summary Stats Card -->
+                    <div class="grid grid-cols-2 gap-2 bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-left my-3 text-xs sm:text-sm">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block">Esatte Missione</span>
+                            <span id="res-correct" class="text-lg font-extrabold text-amber-300 num-font">0 / 10</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block">Punti Guadagnati</span>
+                            <span id="res-score" class="text-lg font-extrabold text-emerald-400 num-font">0</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block">Miglior Combo</span>
+                            <span id="res-streak" class="text-lg font-extrabold text-orange-400 num-font">0x</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block">Totale Campagna</span>
+                            <span id="res-campaign-total" class="text-lg font-extrabold text-sky-300 num-font">0 / 40</span>
+                        </div>
+                    </div>
+
+                    <!-- Rocket Unlock Special Prompt (If finished all 4 with > 35/40) -->
+                    <div id="rocket-unlock-box" class="hidden bg-gradient-to-r from-amber-950/80 to-red-950/80 border border-amber-500/60 rounded-xl p-3 my-2 text-center">
+                        <div class="text-amber-300 font-extrabold text-sm mb-1 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i> TUTTE LE 4 MISSIONI ESEGUITE! (>35/40)
+                        </div>
+                        <p class="text-slate-200 text-xs mb-2">Hai ottenuto un punteggio sufficiente per il lancio spaziale!</p>
+                        <button onclick="openRocketModal()" class="bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white font-extrabold px-5 py-2 rounded-xl text-xs sm:text-sm shadow-lg border border-amber-300/40 transition transform hover:scale-105">
+                            <i class="fa-solid fa-rocket mr-1"></i> VAI AL LANCIATORE RAZZO!
+                        </button>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex gap-2 justify-center mt-4">
+                        <button onclick="showMenu()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl font-bold text-xs transition">
+                            <i class="fa-solid fa-house mr-1"></i> Menu Principale
+                        </button>
+                        <button onclick="restartCurrentMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl font-bold text-xs transition shadow-lg">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> Rigioca Missione
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+
+    <!-- ================= MODAL 1: ABACO SPANZIALE INTERATTIVO ================= -->
+    <div id="abaco-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-4xl rounded-3xl border border-sky-500/40 p-5 shadow-2xl relative flex flex-col max-h-[90vh]">
+            <button onclick="closeAbacoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-3">
+                <div class="p-2 bg-sky-500/20 text-sky-300 rounded-xl">
+                    <i class="fa-solid fa-table-cells text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-extrabold text-white">Tavola Posizionale degli Astronauti</h3>
+                    <p class="text-xs text-slate-300">Simbolo delle Centinaia: <span class="text-amber-300 font-bold">h</span> (hG, hM, hk, h).</p>
+                </div>
+            </div>
+
+            <!-- Input Box -->
+            <div class="mb-3 bg-slate-900/90 p-2.5 rounded-2xl border border-slate-700 flex flex-col sm:flex-row items-center gap-2">
+                <label for="abaco-input" class="text-xs font-bold text-sky-300 uppercase tracking-wider shrink-0">Inserisci numero:</label>
+                <input id="abaco-input" type="number" placeholder="Es. 452890123" oninput="updateAbacoGrid()" class="w-full bg-slate-800 border border-slate-600 text-amber-300 font-extrabold num-font text-base rounded-xl px-3 py-1 focus:outline-none focus:border-sky-400">
+                <button onclick="presetAbaco('1500000000')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-lg border border-slate-700 shrink-0">
+                    Es. 1,5 Miliardi
+                </button>
+            </div>
+
+            <!-- Scrollable Abaco Table Display -->
+            <div class="overflow-x-auto my-auto pb-2">
+                <div class="min-w-[680px] grid grid-cols-12 gap-1 text-center font-bold text-xs">
+                    
+                    <!-- Miliardi Period (G) -->
+                    <div class="col-span-3 bg-rose-950/60 border border-rose-500/40 rounded-t-xl py-1 text-rose-300 text-[11px]">
+                        PERIODO MILIARDI (G)
+                    </div>
+                    <!-- Milioni Period (M) -->
+                    <div class="col-span-3 bg-purple-950/60 border border-purple-500/40 rounded-t-xl py-1 text-purple-300 text-[11px]">
+                        PERIODO MILIONI (M)
+                    </div>
+                    <!-- Migliaia Period (k) -->
+                    <div class="col-span-3 bg-indigo-950/60 border border-indigo-500/40 rounded-t-xl py-1 text-indigo-300 text-[11px]">
+                        PERIODO MIGLIAIA (k)
+                    </div>
+                    <!-- Unità semplici (u) -->
+                    <div class="col-span-3 bg-emerald-950/60 border border-emerald-500/40 rounded-t-xl py-1 text-emerald-300 text-[11px]">
+                        UNITA' SEMPLICI (u)
+                    </div>
+
+                    <!-- Column Subheaders (Updated notation: hG, hM, hk, h) -->
+                    <div class="bg-rose-900/40 border border-rose-500/20 py-1 text-[10px] text-rose-200">hG</div>
+                    <div class="bg-rose-900/40 border border-rose-500/20 py-1 text-[10px] text-rose-200">daG</div>
+                    <div class="bg-rose-900/40 border border-rose-500/20 py-1 text-[10px] text-rose-200">uG</div>
+
+                    <div class="bg-purple-900/40 border border-purple-500/20 py-1 text-[10px] text-purple-200">hM</div>
+                    <div class="bg-purple-900/40 border border-purple-500/20 py-1 text-[10px] text-purple-200">daM</div>
+                    <div class="bg-purple-900/40 border border-purple-500/20 py-1 text-[10px] text-purple-200">uM</div>
+
+                    <div class="bg-indigo-900/40 border border-indigo-500/20 py-1 text-[10px] text-indigo-200">hk</div>
+                    <div class="bg-indigo-900/40 border border-indigo-500/20 py-1 text-[10px] text-indigo-200">dak</div>
+                    <div class="bg-indigo-900/40 border border-indigo-500/20 py-1 text-[10px] text-indigo-200">uk</div>
+
+                    <div class="bg-emerald-900/40 border border-emerald-500/20 py-1 text-[10px] text-emerald-200">h</div>
+                    <div class="bg-emerald-900/40 border border-emerald-500/20 py-1 text-[10px] text-emerald-200">da</div>
+                    <div class="bg-emerald-900/40 border border-emerald-500/20 py-1 text-[10px] text-emerald-200">u</div>
+
+                    <!-- Grid Cells for Digits -->
+                    <div id="cell-11" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-rose-300">-</div>
+                    <div id="cell-10" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-rose-300">-</div>
+                    <div id="cell-9" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-rose-300">-</div>
+
+                    <div id="cell-8" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-purple-300">-</div>
+                    <div id="cell-7" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-purple-300">-</div>
+                    <div id="cell-6" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-purple-300">-</div>
+
+                    <div id="cell-5" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-indigo-300">-</div>
+                    <div id="cell-4" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-indigo-300">-</div>
+                    <div id="cell-3" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-indigo-300">-</div>
+
+                    <div id="cell-2" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-emerald-300">-</div>
+                    <div id="cell-1" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-emerald-300">-</div>
+                    <div id="cell-0" class="h-10 bg-slate-900 border border-slate-700 rounded-b-lg flex items-center justify-center font-extrabold num-font text-base text-emerald-300">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= MODAL 2: SPACE ROCKET LAUNCH STAGE ================= -->
+    <div id="rocket-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-lg hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl border border-amber-500/50 p-6 shadow-2xl relative flex flex-col items-center text-center overflow-hidden">
+            
+            <button onclick="closeRocketModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Launchpad Display -->
+            <div id="launchpad-stage" class="relative w-full h-80 flex flex-col items-center justify-end overflow-hidden my-2 bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 rounded-2xl border border-slate-800">
+                
+                <!-- Countdown Overlay -->
+                <div id="rocket-countdown" class="absolute top-6 font-extrabold text-5xl sm:text-6xl text-amber-400 num-font drop-shadow-lg hidden">
+                    3
+                </div>
+
+                <!-- Rocket Structure -->
+                <div id="rocket-wrapper" class="relative flex flex-col items-center transition-all duration-300">
+                    <!-- Rocket Top Icon -->
+                    <div class="text-6xl sm:text-7xl text-rose-500 filter drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]">
+                        <i class="fa-solid fa-shuttle-space -rotate-45"></i>
+                    </div>
+
+                    <!-- Animated Thruster Flame -->
+                    <div id="rocket-flame" class="hidden flex flex-col items-center -mt-2">
+                        <div class="w-6 h-12 bg-gradient-to-b from-amber-300 via-orange-500 to-red-600 rounded-b-full thruster-flame shadow-[0_0_25px_rgba(245,158,11,0.8)]"></div>
+                        <div class="w-12 h-6 bg-orange-500/40 blur-md rounded-full -mt-4"></div>
+                    </div>
+                </div>
+
+                <!-- Ground Launch Pad Base -->
+                <div class="w-full h-8 bg-slate-800 border-t-2 border-slate-700 flex items-center justify-center gap-6">
+                    <div class="w-4 h-full bg-slate-700"></div>
+                    <div class="w-16 h-full bg-amber-500/20 border-x border-amber-500/40"></div>
+                    <div class="w-4 h-full bg-slate-700"></div>
+                </div>
+            </div>
+
+            <!-- Launch Control Text & Trigger -->
+            <div id="rocket-controls" class="w-full mt-2">
+                <h3 class="text-xl font-extrabold text-white">CENTRO DI CONTROLLO</h3>
+                <p id="rocket-status-msg" class="text-xs text-slate-300 mt-1">
+                    Punteggio Campagna: <span id="rocket-score-display" class="font-extrabold text-emerald-400 num-font">38/40</span>! Tutti i sistemi sono pronti al decollo.
+                </p>
+
+                <div class="mt-4 flex gap-3 justify-center">
+                    <button id="btn-fire-rocket" onclick="startRocketCountdown()" class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white font-extrabold px-8 py-3 rounded-2xl text-base shadow-xl border border-amber-300/40 transition transform hover:scale-105 flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-amber-200"></i> ACCENDI REATTORI E LANCIA!
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        // Web Audio Synthesizer Engine
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+            }
+
+            playTone(freq, type, duration, volume = 0.1) {
+                if (!this.enabled) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(volume, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) { console.log(e); }
+            }
+
+            click() { this.playTone(600, 'sine', 0.08, 0.05); }
+            correct() {
+                if (!this.enabled) return;
+                this.init();
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                    setTimeout(() => this.playTone(freq, 'triangle', 0.2, 0.08), idx * 80);
+                });
+            }
+            wrong() {
+                if (!this.enabled) return;
+                this.init();
+                this.playTone(220, 'sawtooth', 0.25, 0.08);
+                setTimeout(() => this.playTone(180, 'sawtooth', 0.3, 0.08), 120);
+            }
+            win() {
+                if (!this.enabled) return;
+                this.init();
+                [440, 554.37, 659.25, 880, 1108.73].forEach((freq, idx) => {
+                    setTimeout(() => this.playTone(freq, 'sine', 0.3, 0.1), idx * 100);
+                });
+            }
+            rocketRumble() {
+                if (!this.enabled) return;
+                this.init();
+                try {
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(80, now);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 3.5);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 3.5);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(now + 3.5);
+                } catch(e) { console.log(e); }
+            }
+        }
+
+        const sfx = new SoundFX();
+
+        function toggleAudio() {
+            sfx.enabled = !sfx.enabled;
+            const icon = document.getElementById('audio-icon');
+            icon.className = sfx.enabled ? 'fa-solid fa-volume-high text-indigo-400' : 'fa-solid fa-volume-xmark text-rose-400';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+
+        function createStarfield() {
+            const container = document.getElementById('starfield');
+            container.innerHTML = '';
+            for (let i = 0; i < 60; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+                container.appendChild(star);
+            }
+        }
+        createStarfield();
+
+        // UPDATED Educational Place Value Terms mapping ('h' used for Centinaia)
+        const POS_LABELS = [
+            { code: 'u', name: 'Unità semplici', period: 'Unità' },
+            { code: 'da', name: 'Decine semplici', period: 'Unità' },
+            { code: 'h', name: 'Centinaia semplici', period: 'Unità' },
+            { code: 'uk', name: 'Unità di Migliaia', period: 'Migliaia' },
+            { code: 'dak', name: 'Decine di Migliaia', period: 'Migliaia' },
+            { code: 'hk', name: 'Centinaia di Migliaia', period: 'Migliaia' },
+            { code: 'uM', name: 'Unità di Milioni', period: 'Milioni' },
+            { code: 'daM', name: 'Decine di Milioni', period: 'Milioni' },
+            { code: 'hM', name: 'Centinaia di Milioni', period: 'Milioni' },
+            { code: 'uG', name: 'Unità di Miliardi', period: 'Miliardi' },
+            { code: 'daG', name: 'Decine di Miliardi', period: 'Miliardi' },
+            { code: 'hG', name: 'Centinaia di Miliardi', period: 'Miliardi' }
+        ];
+
+        function formatNum(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Global State & Best Scores Memory
+        let campaignScores = {
+            1: { played: false, correct: 0, score: 0 },
+            2: { played: false, correct: 0, score: 0 },
+            3: { played: false, correct: 0, score: 0 },
+            4: { played: false, correct: 0, score: 0 }
+        };
+
+        let gameState = {
+            currentMission: 1,
+            questionIndex: 0,
+            totalQuestions: 10,
+            score: 0,
+            streak: 0,
+            maxStreak: 0,
+            correctCount: 0,
+            activePool: [],
+            currentQuestion: null,
+            answered: false
+        };
+
+        // ================= QUESTION BANK GENERATORS (50 UNIQUE QUESTIONS PER MISSION) =================
+        
+        function generate50Mission1() {
+            let pool = [];
+            let seedNumbers = [
+                "452890123", "12504893012", "984501239", "3049182301", "780234109",
+                "1598230491", "2039481023", "849201394", "50192834012", "678912304",
+                "901234567", "3456789012", "1204958301", "859403219", "4093821049",
+                "6102938475", "2938471029", "748392014", "9382019485", "1029384756",
+                "5849302194", "3920194857", "8473625104", "1928374650", "6574839201",
+                "2837465019", "9483726150", "4738291056", "1059483726", "8374650291",
+                "5647382910", "2910485736", "7364528190", "9018273645", "3827160495",
+                "6453728109", "1827364509", "8273645019", "4958372610", "2039485716",
+                "7162534098", "9384756102", "3049586712", "5867493021", "1920384756",
+                "8475639201", "4039281756", "6958473021", "2839405167", "9584736201"
+            ];
+
+            seedNumbers.forEach((strNum, idx) => {
+                const formattedNum = formatNum(strNum);
+
+                // Trova le cifre uniche presenti nel numero ed il loro valore posizionale
+                let digitCounts = {};
+                for (let char of strNum) {
+                    digitCounts[char] = (digitCounts[char] || 0) + 1;
+                }
+
+                let uniquePositions = [];
+                for (let i = 0; i < strNum.length; i++) {
+                    let posFromRight = strNum.length - 1 - i;
+                    let char = strNum[i];
+                    if (digitCounts[char] === 1 && posFromRight < POS_LABELS.length) {
+                        uniquePositions.push({
+                            digit: char,
+                            posFromRight: posFromRight,
+                            posMeta: POS_LABELS[posFromRight]
+                        });
+                    }
+                }
+
+                // Fallback di sicurezza in caso non vi siano cifre uniche
+                if (uniquePositions.length === 0) {
+                    const targetPosIndex = idx % POS_LABELS.length;
+                    if (strNum.length > targetPosIndex) {
+                        const char = strNum[strNum.length - 1 - targetPosIndex];
+                        uniquePositions.push({
+                            digit: char,
+                            posFromRight: targetPosIndex,
+                            posMeta: POS_LABELS[targetPosIndex]
+                        });
+                    }
+                }
+
+                const chosen = uniquePositions[idx % uniquePositions.length];
+                const posMeta = chosen.posMeta;
+                const digitVal = chosen.digit;
+
+                if (idx % 2 === 0) {
+                    // Tipo domanda 1: Data la posizione, trova la cifra
+                    const text = `Nel numero <span class="num-font text-base tracking-wider text-amber-300 font-bold">${formattedNum}</span>, qual è la cifra delle <span class="text-sky-300 font-bold">${posMeta.name} (${posMeta.code})</span>?`;
+                    const correctAnswer = digitVal;
+                    let options = new Set([correctAnswer]);
+                    while (options.size < 4) {
+                        options.add(Math.floor(Math.random() * 10).toString());
+                    }
+                    pool.push({
+                        title: "Missione 1 • Radar Posizionale",
+                        icon: "fa-radar",
+                        text: text,
+                        options: Array.from(options).sort(() => Math.random() - 0.5),
+                        correct: correctAnswer,
+                        hint: `Individua la posizione delle ${posMeta.name} (${posMeta.code}) all'interno del numero.`
+                    });
+                } else {
+                    // Tipo domanda 2: Data una cifra unica e visibile nel numero, chiedi il suo valore posizionale
+                    const text = `Nel numero <span class="num-font text-base tracking-wider text-sky-300 font-bold">${formattedNum}</span>, qual è il valore posizionale della cifra <span class="text-amber-300 font-bold">${digitVal}</span>?`;
+                    const correctAnswer = `${posMeta.name} (${posMeta.code})`;
+                    let options = new Set([correctAnswer]);
+                    while (options.size < 4) {
+                        const randPos = POS_LABELS[Math.floor(Math.random() * POS_LABELS.length)];
+                        options.add(`${randPos.name} (${randPos.code})`);
+                    }
+                    pool.push({
+                        title: "Missione 1 • Radar Posizionale",
+                        icon: "fa-radar",
+                        text: text,
+                        options: Array.from(options).sort(() => Math.random() - 0.5),
+                        correct: correctAnswer,
+                        hint: `Osserva dove si trova la cifra ${digitVal} all'interno del numero. Ricorda: 'h' indica le centinaia.`
+                    });
+                }
+            });
+
+            return pool;
+        }
+
+        function generate50Mission2() {
+            let pool = [];
+            for (let i = 1; i <= 50; i++) {
+                const uG = (i % 5);
+                const uM = (i * 7) % 80 + 1;
+                const uk = (i * 13) % 900 + 50;
+                const u = (i * 17) % 900 + 10;
+
+                const totalVal = BigInt(uG) * 1000000000n + BigInt(uM) * 1000000n + BigInt(uk) * 1000n + BigInt(u);
+
+                let parts = [];
+                if (uG > 0) parts.push(`${uG} uG`);
+                if (uM > 0) parts.push(`${uM} uM`);
+                if (uk > 0) parts.push(`${uk} uk`);
+                parts.push(`${u} u`);
+
+                const text = `Ricomponi il seguente numero spaziale: <br><span class="text-sky-300 font-bold">${parts.join(" + ")}</span>`;
+                const correctAnswer = formatNum(totalVal);
+
+                let options = new Set([correctAnswer]);
+                while (options.size < 4) {
+                    const delta = BigInt((Math.floor(Math.random() * 5) + 1)) * (Math.random() > 0.5 ? 100000n : 1000000n);
+                    const fake = totalVal + delta;
+                    if (fake > 0n) options.add(formatNum(fake));
+                }
+
+                pool.push({
+                    title: "Missione 2 • Scomposizione",
+                    icon: "fa-puzzle-piece",
+                    text: text,
+                    options: Array.from(options).sort(() => Math.random() - 0.5),
+                    correct: correctAnswer,
+                    hint: "Somma il valore di ogni classe (uG = Miliardi, uM = Milioni, uk = Migliaia)."
+                });
+            }
+            return pool;
+        }
+
+        function generate50Mission3() {
+            let pool = [];
+            for (let i = 1; i <= 50; i++) {
+                const isMiliardi = i % 2 === 0;
+                const base = isMiliardi ? 1000000000n : 1000000n;
+                const valA = BigInt(i * 15 + 20) * base;
+                let valB = valA;
+
+                const randType = i % 3;
+                if (randType === 0) {
+                    valB = valA + BigInt(i * 3 + 1) * (base / 10n);
+                } else if (randType === 1) {
+                    valB = valA - BigInt(i * 2 + 1) * (base / 10n);
+                }
+
+                let correctOp = "=";
+                if (valA > valB) correctOp = ">";
+                if (valA < valB) correctOp = "<";
+
+                const text = `Confronta i due valori cosmici: <br>
+                <span class="text-amber-300 font-bold num-font">${formatNum(valA)}</span> 
+                <span class="text-white mx-2 font-black">[ ? ]</span> 
+                <span class="text-cyan-300 font-bold num-font">${formatNum(valB)}</span>`;
+
+                pool.push({
+                    title: "Missione 3 • Rotta & Confronti",
+                    icon: "fa-scale-unbalanced",
+                    text: text,
+                    options: [">", "<", "="],
+                    correct: correctOp,
+                    hint: "Confronta prima la cifra di valore posizionale più alto (più a sinistra)."
+                });
+            }
+            return pool;
+        }
+
+        function generate50Mission4() {
+            let pool = [];
+            for (let i = 1; i <= 50; i++) {
+                let valA, valB, res, opText;
+                const type = i % 3;
+
+                if (type === 0) {
+                    // Billions addition
+                    const aG = (i % 6) + 1;
+                    const bG = (i % 3) + 1;
+                    valA = BigInt(aG) * 1000000000n;
+                    valB = BigInt(bG) * 1000000000n;
+                    res = valA + valB;
+                    opText = `${formatNum(valA)} + ${formatNum(valB)}`;
+                } else if (type === 1) {
+                    // Hundreds of Millions addition (using hM concept)
+                    const aM = ((i % 5) + 1) * 100;
+                    const bM = ((i % 4) + 1) * 100;
+                    valA = BigInt(aM) * 1000000n;
+                    valB = BigInt(bM) * 1000000n;
+                    res = valA + valB;
+                    opText = `${formatNum(valA)} + ${formatNum(valB)}`;
+                } else {
+                    // Billions - Millions or Billions + Millions
+                    const aG = (i % 5) + 2;
+                    const bM = ((i % 8) + 1) * 100;
+                    valA = BigInt(aG) * 1000000000n;
+                    valB = BigInt(bM) * 1000000n;
+                    res = valA + valB;
+                    opText = `${formatNum(valA)} + ${formatNum(valB)}`;
+                }
+
+                const text = `Calcola a mente l'impulso spaziale: <br>
+                <span class="text-amber-300 font-bold num-font">${opText}</span> = ?`;
+                const correctAnswer = formatNum(res);
+
+                let options = new Set([correctAnswer]);
+                const step = 100000000n;
+                options.add(formatNum(res + step * 2n));
+                if (res - step * 2n > 0n) options.add(formatNum(res - step * 2n));
+                options.add(formatNum(res + step * 5n));
+
+                while (options.size < 4) {
+                    const fakeStep = BigInt(Math.floor(Math.random() * 8) + 1) * step;
+                    options.add(formatNum(res + fakeStep));
+                }
+
+                pool.push({
+                    title: "Missione 4 • Motore Iper-Luce",
+                    icon: "fa-bolt",
+                    text: text,
+                    options: Array.from(options).sort(() => Math.random() - 0.5),
+                    correct: correctAnswer,
+                    hint: "Calcola rapidamente sommando i Miliardi e i Milioni!"
+                });
+            }
+            return pool;
+        }
+
+
+        function startMission(missionNum) {
+            sfx.click();
+            gameState.currentMission = missionNum;
+            gameState.questionIndex = 0;
+            gameState.score = 0;
+            gameState.streak = 0;
+            gameState.maxStreak = 0;
+            gameState.correctCount = 0;
+
+            // Generate 50 questions for this mission
+            let pool50 = [];
+            if (missionNum === 1) pool50 = generate50Mission1();
+            else if (missionNum === 2) pool50 = generate50Mission2();
+            else if (missionNum === 3) pool50 = generate50Mission3();
+            else pool50 = generate50Mission4();
+
+            // Randomly select 10 distinct questions
+            const shuffled = [...pool50].sort(() => Math.random() - 0.5);
+            gameState.activePool = shuffled.slice(0, 10);
+
+            document.getElementById('view-menu').classList.add('hidden');
+            document.getElementById('view-results').classList.add('hidden');
+            document.getElementById('view-game').classList.remove('hidden');
+            document.getElementById('hud-stats').classList.remove('hidden');
+
+            loadNextQuestion();
+        }
+
+        function showMenu() {
+            sfx.click();
+            updateCampaignUI();
+            document.getElementById('view-game').classList.add('hidden');
+            document.getElementById('view-results').classList.add('hidden');
+            document.getElementById('hud-stats').classList.add('hidden');
+            document.getElementById('view-menu').classList.remove('hidden');
+        }
+
+        function restartCurrentMission() {
+            startMission(gameState.currentMission);
+        }
+
+        function updateHUD() {
+            document.getElementById('score-display').innerText = gameState.score;
+            document.getElementById('streak-display').innerText = `${gameState.streak}x`;
+            document.getElementById('level-badge').innerText = `Liv. ${gameState.currentMission}`;
+        }
+
+        function loadNextQuestion() {
+            gameState.answered = false;
+            document.getElementById('btn-next').classList.add('hidden');
+
+            if (gameState.questionIndex >= gameState.totalQuestions) {
+                showResults();
+                return;
+            }
+
+            gameState.currentQuestion = gameState.activePool[gameState.questionIndex];
+            const q = gameState.currentQuestion;
+
+            document.getElementById('mission-title').innerText = q.title;
+            document.getElementById('question-text').innerHTML = q.text;
+            document.getElementById('hint-text').innerHTML = `<i class="fa-regular fa-lightbulb text-amber-400"></i> <span>${q.hint}</span>`;
+
+            const stepPercent = ((gameState.questionIndex + 1) / gameState.totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${stepPercent}%`;
+            document.getElementById('progress-text').innerText = `${gameState.questionIndex + 1} / ${gameState.totalQuestions} Domande`;
+
+            const playArea = document.getElementById('play-area');
+            playArea.innerHTML = '';
+
+            const optionsGrid = document.createElement('div');
+            optionsGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full max-w-2xl mx-auto';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'glass-panel hover:bg-indigo-600/40 border border-indigo-500/30 text-white font-extrabold text-sm sm:text-base p-3.5 rounded-2xl transition transform hover:scale-102 flex items-center justify-center gap-3 num-font shadow-lg active:scale-95';
+                btn.innerHTML = `<span class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center justify-center text-xs shrink-0">${String.fromCharCode(65 + idx)}</span> <span>${opt}</span>`;
+                btn.onclick = () => handleAnswer(opt, btn);
+                optionsGrid.appendChild(btn);
+            });
+
+            playArea.appendChild(optionsGrid);
+            updateHUD();
+        }
+
+        function handleAnswer(selectedOpt, btnElement) {
+            if (gameState.answered) return;
+            gameState.answered = true;
+
+            const q = gameState.currentQuestion;
+            const isCorrect = (selectedOpt === q.correct);
+
+            if (isCorrect) {
+                sfx.correct();
+                btnElement.classList.remove('glass-panel', 'border-indigo-500/30');
+                btnElement.classList.add('bg-emerald-600/90', 'border-emerald-400', 'text-white', 'shadow-emerald-500/30');
+                
+                gameState.score += 100 + (gameState.streak * 20);
+                gameState.streak++;
+                if (gameState.streak > gameState.maxStreak) gameState.maxStreak = gameState.streak;
+                gameState.correctCount++;
+            } else {
+                sfx.wrong();
+                btnElement.classList.remove('glass-panel', 'border-indigo-500/30');
+                btnElement.classList.add('bg-rose-600/90', 'border-rose-400', 'text-white');
+                gameState.streak = 0;
+
+                const allButtons = document.querySelectorAll('#play-area button');
+                allButtons.forEach(b => {
+                    if (b.innerText.includes(q.correct)) {
+                        b.classList.add('bg-emerald-600/60', 'border-emerald-400');
+                    }
+                });
+            }
+
+            updateHUD();
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            sfx.click();
+            gameState.questionIndex++;
+            loadNextQuestion();
+        }
+
+        function showResults() {
+            sfx.win();
+            document.getElementById('view-game').classList.add('hidden');
+            document.getElementById('view-results').classList.remove('hidden');
+
+            const m = gameState.currentMission;
+            // Update best score for this mission
+            if (!campaignScores[m].played || gameState.correctCount > campaignScores[m].correct) {
+                campaignScores[m].correct = gameState.correctCount;
+                campaignScores[m].score = gameState.score;
+            }
+            campaignScores[m].played = true;
+
+            // Calculate total campaign correct answers
+            let totalCampaignCorrect = 0;
+            let playedMissionsCount = 0;
+            for (let i = 1; i <= 4; i++) {
+                if (campaignScores[i].played) {
+                    playedMissionsCount++;
+                    totalCampaignCorrect += campaignScores[i].correct;
+                }
+            }
+
+            document.getElementById('res-correct').innerText = `${gameState.correctCount} / 10`;
+            document.getElementById('res-score').innerText = gameState.score;
+            document.getElementById('res-streak').innerText = `${gameState.maxStreak}x`;
+            document.getElementById('res-campaign-total').innerText = `${totalCampaignCorrect} / 40`;
+
+            // Stars calculation
+            let starsHTML = '';
+            if (gameState.correctCount >= 8) {
+                starsHTML = '<i class="fa-solid fa-star text-amber-400"></i><i class="fa-solid fa-star text-amber-400"></i><i class="fa-solid fa-star text-amber-400"></i>';
+            } else if (gameState.correctCount >= 5) {
+                starsHTML = '<i class="fa-solid fa-star text-amber-400"></i><i class="fa-solid fa-star text-amber-400"></i><i class="fa-regular fa-star text-slate-600"></i>';
+            } else {
+                starsHTML = '<i class="fa-solid fa-star text-amber-400"></i><i class="fa-regular fa-star text-slate-600"></i><i class="fa-regular fa-star text-slate-600"></i>';
+            }
+            document.getElementById('stars-container').innerHTML = starsHTML;
+
+            // Check if all 4 missions are completed
+            const rocketBox = document.getElementById('rocket-unlock-box');
+            if (playedMissionsCount === 4) {
+                document.getElementById('res-title').innerText = "CAMPAGNA COMPLETA!";
+                if (totalCampaignCorrect > 35) {
+                    rocketBox.classList.remove('hidden');
+                } else {
+                    rocketBox.classList.add('hidden');
+                    document.getElementById('res-subtitle').innerText = `Hai totalizzato ${totalCampaignCorrect}/40. Ti servono almeno 36/40 per lanciare il razzo! Rigioca le missioni.`;
+                }
+            } else {
+                rocketBox.classList.add('hidden');
+                document.getElementById('res-subtitle').innerText = `Missione ${m} completata con successo!`;
+            }
+
+            updateCampaignUI();
+        }
+
+        function updateCampaignUI() {
+            let totalCampaignCorrect = 0;
+            let completedCount = 0;
+
+            for (let i = 1; i <= 4; i++) {
+                const slotScore = document.getElementById(`slot-score-${i}`);
+                const slotStatus = document.getElementById(`slot-status-${i}`);
+
+                if (campaignScores[i].played) {
+                    completedCount++;
+                    totalCampaignCorrect += campaignScores[i].correct;
+                    slotScore.innerText = `${campaignScores[i].correct} / 10`;
+                    slotStatus.innerText = 'Completata';
+                    slotStatus.className = 'text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-800';
+                } else {
+                    slotScore.innerText = '- / 10';
+                    slotStatus.innerText = 'Non giocata';
+                    slotStatus.className = 'text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700';
+                }
+            }
+
+            document.getElementById('campaign-status-text').innerText = `${completedCount}/4 Missioni Completate`;
+            document.getElementById('campaign-total-score').innerText = `${totalCampaignCorrect}/40`;
+
+            const launchBtnMenu = document.getElementById('btn-rocket-launch-menu');
+            if (completedCount === 4 && totalCampaignCorrect > 35) {
+                launchBtnMenu.classList.remove('hidden');
+            } else {
+                launchBtnMenu.classList.add('hidden');
+            }
+        }
+
+
+        function openRocketModal() {
+            sfx.click();
+            document.getElementById('rocket-modal').classList.remove('hidden');
+
+            let totalCampaignCorrect = 0;
+            for (let i = 1; i <= 4; i++) totalCampaignCorrect += campaignScores[i].correct;
+            document.getElementById('rocket-score-display').innerText = `${totalCampaignCorrect}/40`;
+
+            // Reset rocket position
+            const wrapper = document.getElementById('rocket-wrapper');
+            wrapper.className = 'relative flex flex-col items-center transition-all duration-300';
+            document.getElementById('rocket-flame').classList.add('hidden');
+            document.getElementById('rocket-countdown').classList.add('hidden');
+            document.getElementById('btn-fire-rocket').disabled = false;
+        }
+
+        function closeRocketModal() {
+            sfx.click();
+            document.getElementById('rocket-modal').classList.add('hidden');
+        }
+
+        function startRocketCountdown() {
+            sfx.click();
+            document.getElementById('btn-fire-rocket').disabled = true;
+            
+            const countdownEl = document.getElementById('rocket-countdown');
+            countdownEl.classList.remove('hidden');
+
+            let count = 3;
+            countdownEl.innerText = count;
+
+            const timer = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    sfx.playTone(400, 'sine', 0.15, 0.1);
+                    countdownEl.innerText = count;
+                } else if (count === 0) {
+                    sfx.playTone(800, 'triangle', 0.3, 0.15);
+                    countdownEl.innerText = "VIA!";
+                } else {
+                    clearInterval(timer);
+                    countdownEl.classList.add('hidden');
+                    launchRocket();
+                }
+            }, 1000);
+        }
+
+        function launchRocket() {
+            const wrapper = document.getElementById('rocket-wrapper');
+            const flame = document.getElementById('rocket-flame');
+
+            flame.classList.remove('hidden');
+            wrapper.classList.add('rocket-rumble');
+            sfx.rocketRumble();
+
+            setTimeout(() => {
+                wrapper.classList.remove('rocket-rumble');
+                wrapper.classList.add('rocket-launching');
+                sfx.win();
+                document.getElementById('rocket-status-msg').innerHTML = "<span class='text-amber-300 font-bold text-sm'>DECOLLO RIUSCITO! IL RAZZO E' IN ROTTA VERSO MARTE! 🚀</span>";
+            }, 1000);
+        }
+
+
+        // Abaco Modal Handlers
+        function openAbacoModal() {
+            sfx.click();
+            document.getElementById('abaco-modal').classList.remove('hidden');
+            updateAbacoGrid();
+        }
+
+        function closeAbacoModal() {
+            sfx.click();
+            document.getElementById('abaco-modal').classList.add('hidden');
+        }
+
+        function presetAbaco(valStr) {
+            document.getElementById('abaco-input').value = valStr;
+            updateAbacoGrid();
+        }
+
+        function updateAbacoGrid() {
+            const inputVal = document.getElementById('abaco-input').value.trim();
+            for (let i = 0; i < 12; i++) {
+                const cell = document.getElementById(`cell-${i}`);
+                cell.innerText = '-';
+                cell.classList.remove('bg-indigo-600/40', 'text-white');
+            }
+
+            if (!inputVal) return;
+
+            const digits = inputVal.split('').reverse();
+            for (let i = 0; i < Math.min(digits.length, 12); i++) {
+                const cell = document.getElementById(`cell-${i}`);
+                if (cell) {
+                    cell.innerText = digits[i];
+                    cell.classList.add('bg-indigo-600/40', 'text-white');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
